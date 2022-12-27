@@ -31,6 +31,7 @@ export const useLoginForm = () => {
           maxAge: 3_600 * 4,
           path: '/',
         });
+        router.refresh();
         router.push('/');
       })
       .catch(() => setMessage('Incorrect credentials'));
