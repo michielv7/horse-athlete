@@ -5,51 +5,22 @@ import GlobalNav from './GlobalNav';
 export default function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Next.js App Directory Playground</title>
-        <meta
-          name="description"
-          content="Next.js App Directory Playground"
-          key="desc"
-        />
-      </head>
-      <body className="overflow-y-scroll bg-gray-900">
-        <div className="grid grid-cols-[1fr,minmax(auto,240px),min(800px,100%),1fr] gap-x-8 py-8">
-          <div className="col-start-2">
+      <body className="bg-E5E5E5 overflow-y-scroll pt-0">
+        <div className="grid grid-cols-[200px,calc(98%-200px)] gap-x-2">
+          <div className="sidebar fixed top-0 bottom-0 col-start-1 w-[200px] overflow-y-auto bg-gray-900 p-2 lg:left-0">
             <GlobalNav />
           </div>
 
-          <div className="col-start-3 space-y-6">
+          <div className="col-start-2 mt-4 space-y-4">
             <AddressBar />
-
-            <div className="rounded-xl border border-gray-800 bg-black p-8">
+            <div className="rounded-xl border border-gray-800 bg-black p-8 text-white">
               {children}
             </div>
           </div>
 
-          <div className="col-start-3 col-end-4 mt-28 flex items-center justify-center">
-            <div className="text-sm text-gray-600">
-              Created by the <strong>Next.js</strong>
-              {' team at '}
-              <a href="https://vercel.com">
-                <strong>Vercel</strong>
-              </a>
-              {'. '}
-              <a
-                className="underline decoration-dotted underline-offset-4"
-                href="https://github.com/vercel/app-playground"
-              >
-                View the code
-              </a>
-              {' or '}
-              <a
-                className="underline decoration-dotted underline-offset-4"
-                href="https://vercel.com/templates/next.js/app-directory"
-              >
-                deploy your own
-              </a>
-              {'.'}
+          <div className="col-start-2 col-end-2 mt-28 flex items-center justify-center">
+            <div className="text-sm text-gray-600 underline decoration-dotted underline-offset-4">
+              This website is in development
             </div>
           </div>
         </div>

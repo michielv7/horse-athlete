@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -16,7 +16,12 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "#/*": ["./*"]
+      "#/*": ["./*"],
+      "saddles/*": ["./app/saddles/*"],
+      "types/*": ["./lib/types/*"],
+      "helpers/*": ["./lib/helpers/*"],
+      "@ui/*": ["./ui/*"],
+      "@lib/*": ["./lib/*"]
     },
     "plugins": [
       {

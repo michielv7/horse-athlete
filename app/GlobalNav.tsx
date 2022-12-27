@@ -1,12 +1,11 @@
-'use client';
-
 import { demos } from '#/lib/demos';
 import clsx from 'clsx';
-import { useSelectedLayoutSegments } from 'next/navigation';
 import Link from 'next/link';
+import { isAdmin, isFitter } from '#/lib/helpers/serverAuthorization';
 
 export default function GlobalNav() {
-  const [selectedLayoutSegments] = useSelectedLayoutSegments();
+  const isUserAdmin = isAdmin(),
+    isUserFitter = isFitter();
 
   return (
     <div className="space-y-5">
@@ -18,30 +17,22 @@ export default function GlobalNav() {
             </div>
 
             {demo.items.map((item) => {
-              const isActive = item.slug === selectedLayoutSegments;
+              const isActive = false;
 
-              return (
-                <div key={item.slug}>
-                  {item.isDisabled ? (
-                    <div
-                      className="block rounded-md px-3 py-2 text-sm font-medium text-gray-600"
-                      title="Coming Soon"
-                    >
-                      {item.name}
-                    </div>
-                  ) : (
-                    <Link
-                      href={`/${item.slug}`}
-                      className={clsx(
-                        'block rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800 hover:text-gray-100',
-                        { 'text-gray-400': !isActive, 'text-white': isActive },
-                      )}
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
-              );
+              if (
+                !item.isHidden &&
+                (item.isPublic ||
+                  (item.forAdmin && isUserAdmin) ||
+                  (item.forFitter && isUserFitter))
+              ) {
+                return (
+                  <NavComponent
+                    key={item.slug}
+                    item={item}
+                    isActive={isActive}
+                  />
+                );
+              }
             })}
           </div>
         );
@@ -49,3 +40,29 @@ export default function GlobalNav() {
     </div>
   );
 }
+
+const NavComponent = ({ item, isActive }: { item: any; isActive: boolean }) => (
+  <div>
+    {item.isDisabled ? (
+      <div
+        className="block rounded-md px-3 py-2 text-sm font-medium text-gray-600"
+        title="Coming Soon"
+      >
+        {item.name}
+      </div>
+    ) : (
+      <Link
+        href={`/${item.slug}`}
+        className={clsx(
+          'block rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800 hover:text-gray-100',
+          {
+            'text-gray-400': !isActive,
+            'text-white': isActive,
+          },
+        )}
+      >
+        {item.name}
+      </Link>
+    )}
+  </div>
+);

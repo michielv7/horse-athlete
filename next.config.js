@@ -6,6 +6,15 @@ const nextConfig = {
     // Required:
     appDir: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'strapi-production-f578.up.railway.app',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

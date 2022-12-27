@@ -5,98 +5,66 @@ type Item = {
     slug: string;
     description?: string;
     isDisabled?: boolean;
+    forFitter?: boolean;
+    forAdmin?: boolean;
+    isPublic?: boolean;
+    isHidden?: boolean;
   }[];
 };
 
 export const demos: Item[] = [
   {
-    name: 'Layouts',
+    name: 'overview',
     items: [
       {
-        name: 'Nested Layouts',
-        slug: 'layouts',
-        description: 'Create UI that is shared across routes',
+        name: 'Login',
+        slug: 'login',
+        description: 'Login page',
+        isHidden: true,
       },
       {
-        name: 'Grouped Layouts',
-        slug: 'route-groups',
-        description: 'Organize routes without affecting URL paths',
+        name: 'Order Overview',
+        slug: 'order-overview',
+        description: 'view your saddles',
+        forFitter: true,
+        forAdmin: true,
       },
       {
-        name: 'Streaming with Suspense',
-        slug: 'streaming',
-        description:
-          'Streaming data fetching from the server with React Suspense',
+        name: 'Add Order',
+        slug: 'add-order',
+        description: 'add an order',
+        forFitter: true,
+        forAdmin: true,
       },
       {
-        name: 'Root Layouts',
-        slug: 'root-layouts',
-        description: 'Create top-level layouts that apply to all routes',
-        isDisabled: true,
+        name: 'News Forum',
+        slug: 'news-forum',
+        description: 'See the latests updates',
+        isPublic: true,
+      },
+      {
+        name: 'Saddles',
+        slug: 'saddles',
+        description: 'See, create and edit your saddles',
+        forAdmin: true,
       },
     ],
   },
   {
-    name: 'File Conventions',
+    name: 'Your Profile',
     items: [
       {
-        name: 'Loading',
-        slug: 'loading',
-        description:
-          'Create meaningful loading UI for specific parts of an app',
+        name: 'Personal Account',
+        slug: 'personal-account',
+        description: 'Display personal account',
+        forFitter: true,
+        forAdmin: true,
       },
       {
-        name: 'Error',
-        slug: 'error-handling',
-        description: 'Create error UI for specific parts of an app',
-      },
-    ],
-  },
-  {
-    name: 'Data Fetching',
-    items: [
-      {
-        name: 'Static-Site Generation',
-        slug: 'ssg',
-        description: 'Generate static pages',
-      },
-      {
-        name: 'Server-Side Rendering',
-        slug: 'ssr',
-        description: 'Server-render pages',
-      },
-      {
-        name: 'Incremental Static Regeneration',
-        slug: 'isr',
-        description: 'Get the best of both worlds between static & dynamic',
-      },
-    ],
-  },
-  {
-    name: 'Components',
-    items: [
-      // TODO: Re-add this page once hooks have been updated.
-      // {
-      //   name: 'Hooks',
-      //   slug: 'hooks',
-      //   description:
-      //     'Preview the hooks available for Client and Server Components',
-      // },
-      {
-        name: 'Client Context',
-        slug: 'context',
-        description:
-          'Pass context between Client Components that cross Server/Client Component boundary',
-      },
-    ],
-  },
-  {
-    name: 'Styling',
-    items: [
-      {
-        name: 'CSS and CSS-in-JS',
-        slug: 'styling',
-        description: 'Preview the supported styling solutions',
+        name: 'User overview',
+        slug: 'user-overview',
+        description: 'View all the users',
+        forAdmin: true,
       },
     ],
   },

@@ -1,0 +1,12 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+form label {
+  color: white;
+}
+form button {
+  color: white;
+}
+
+/*# sourceMappingURL=login.css.map */

@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { Fragment } from 'react';
+import { usePathname } from 'next/navigation';
 
 const AddressBar = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   return (
     <div className="flex w-full items-center space-x-2 rounded-xl border border-gray-800 bg-black px-4 py-3 text-gray-600">
@@ -25,48 +24,31 @@ const AddressBar = () => {
       </div>
       <div className="flex space-x-1 text-sm font-medium">
         <div>
-          <span className="px-2 text-gray-500">acme.com</span>
+          <span className="px-2 text-gray-500">horse-athlete.be</span>
         </div>
         {pathname ? (
           <>
             <span className="text-gray-600">/</span>
             {pathname
               .split('/')
-              .slice(2)
+              .slice(1)
               .map((segment) => {
                 return (
-                  <React.Fragment key={segment}>
+                  <Fragment key={segment}>
                     <span>
                       <span
                         key={segment}
-                        className="animate-[highlight_1s_ease-in-out_1] rounded-full px-1.5 py-0.5 text-gray-100"
+                        className="rounded-full px-1.5 py-0.5 text-gray-100"
                       >
                         {segment}
                       </span>
                     </span>
 
                     <span className="text-gray-600">/</span>
-                  </React.Fragment>
+                  </Fragment>
                 );
               })}
           </>
-        ) : null}
-        {searchParams.toString().length !== 0 ? (
-          <div className="px-2 text-gray-500">
-            <span>?</span>
-            {Array.from(searchParams.entries()).map(([key, value], index) => {
-              return (
-                <React.Fragment key={key}>
-                  {index !== 0 ? <span>&</span> : null}
-                  <span className="px-2">
-                    <span className="text-gray-100">{key}</span>
-                    <span>=</span>
-                    <span className="text-gray-100">{value}</span>
-                  </span>
-                </React.Fragment>
-              );
-            })}
-          </div>
         ) : null}
       </div>
     </div>
