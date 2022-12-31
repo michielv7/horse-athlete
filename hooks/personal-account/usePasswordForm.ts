@@ -7,12 +7,11 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export const usePasswordForm = () => {
   const { back } = useRouter();
-  const [message, setMessage] = useState('');
   const {
     register,
     handleSubmit,
@@ -22,28 +21,32 @@ export const usePasswordForm = () => {
   });
 
   const onSubmit: SubmitHandler<PasswordChangeType> = (data) =>
-    fetchData({
-      url: '/api/auth/change-password',
-      method: 'POST',
-      authorized: true,
-      body: data,
-    })
-      .then(Login.parse)
-      .then((res) => {
-        setCookie('user', res, {
-          path: '/',
-          maxAge: 3_600 * 4,
-          sameSite: true,
-        });
+    toast.promise(
+      fetchData({
+        url: '/api/auth/change-password',
+        method: 'POST',
+        authorized: true,
+        body: data,
+      }).then(Login.parse),
+      {
+        loading: 'Updating your password...',
+        success: (data) => {
+          setCookie('user', data, {
+            path: '/',
+            maxAge: 3_600 * 4,
+            sameSite: true,
+          });
 
-        back();
-      })
-      .catch(() => setMessage('Your current password is not correct'));
+          back();
+          return 'Updated your password';
+        },
+        error: 'There was an error updating your password',
+      },
+    );
 
   return {
     register,
     handleSubmit: () => handleSubmit(onSubmit),
     errors,
-    message,
   };
 };

@@ -20,13 +20,12 @@ export default async function PersonalAccountLayout({
       </div>
     );
 
-  const userData = await fetchUserDetails();
   const userStats = await fetchUserStats();
 
   return (
     <div>
       <div className="grid grid-cols-2 gap-4 text-white">
-        <Profile userData={userData} />
+        <Profile />
         <Statistics statsData={userStats} />
       </div>
       <div className="mt-3">{children}</div>

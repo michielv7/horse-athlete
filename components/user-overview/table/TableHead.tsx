@@ -1,9 +1,11 @@
+import { ISorting } from '#/lib/intefaces/sorting';
 import {
   Bars4Icon,
   BarsArrowUpIcon,
   BarsArrowDownIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { Dispatch, SetStateAction } from 'react';
 
 const cols = {
   names: [
@@ -43,11 +45,13 @@ const cols = {
 
 export const TableHead = ({
   sorting: { sortField, sortDirection },
+  setSorting,
 }: {
   sorting: {
     sortField: string;
     sortDirection: '' | 'asc' | 'desc';
   };
+  setSorting: Dispatch<SetStateAction<ISorting>>;
 }) => {
   return (
     <thead className="bg-slate-800 text-xs uppercase">
@@ -58,40 +62,32 @@ export const TableHead = ({
               {col.displayName}
               {col.fieldName !== '' ? (
                 col.fieldName === sortField && sortDirection === 'asc' ? (
-                  <Link
-                    href={{
-                      pathname: '/user-overview',
-                      query: {
+                  <cols.ascIcon
+                    className="h-3 w-3 hover:cursor-pointer"
+                    onClick={() => {
+                      setSorting({
                         sortField: col.fieldName,
                         sortDirection: 'desc',
-                      },
+                      });
                     }}
-                    replace
-                  >
-                    <cols.ascIcon className="h-3 w-3 hover:cursor-pointer" />
-                  </Link>
+                  />
                 ) : col.fieldName === sortField && sortDirection === 'desc' ? (
-                  <Link
-                    href={{
-                      pathname: '/user-overview',
-                    }}
-                    replace
-                  >
-                    <cols.descIcon className="h-3 w-3 hover:cursor-pointer" />
-                  </Link>
+                  <cols.descIcon
+                    className="h-3 w-3 hover:cursor-pointer"
+                    onClick={() =>
+                      setSorting({ sortField: '', sortDirection: '' })
+                    }
+                  />
                 ) : (
-                  <Link
-                    href={{
-                      pathname: '/user-overview',
-                      query: {
+                  <cols.noFilterIcon
+                    className="h-3 w-3 hover:cursor-pointer"
+                    onClick={() =>
+                      setSorting({
                         sortField: col.fieldName,
                         sortDirection: 'asc',
-                      },
-                    }}
-                    replace
-                  >
-                    <cols.noFilterIcon className="h-3 w-3 hover:cursor-pointer" />
-                  </Link>
+                      })
+                    }
+                  />
                 )
               ) : null}
             </p>

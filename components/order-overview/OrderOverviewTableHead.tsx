@@ -72,11 +72,12 @@ export const OrderOverviewTableHead = ({
                       },
                     }}
                     replace
+                    passHref
                   >
                     <cols.ascIcon className="h-3 w-3 hover:cursor-pointer" />
                   </Link>
                 ) : col.fieldName === sortField && sortDirection === 'desc' ? (
-                  <Link href={{ pathname: '/order-overview' }} replace>
+                  <Link href={{ pathname: '/order-overview' }} replace passHref>
                     <cols.descIcon className="h-3 w-3 hover:cursor-pointer" />
                   </Link>
                 ) : (
@@ -89,6 +90,7 @@ export const OrderOverviewTableHead = ({
                       },
                     }}
                     replace
+                    passHref
                   >
                     <cols.noFilterIcon className="h-3 w-3 hover:cursor-pointer" />
                   </Link>

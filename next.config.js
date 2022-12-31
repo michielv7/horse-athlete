@@ -10,7 +10,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'strapi-production-f578.up.railway.app',
+        hostname: 'strapi-production-9b42.up.railway.app',
         pathname: '/uploads/**',
       },
     ],

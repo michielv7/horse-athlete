@@ -22,6 +22,7 @@ export const NewsForumShort = ({
       <Link
         href={`/news-forum/post/${news.slug}`}
         className="flex w-[20%] flex-row items-center justify-center gap-2 self-end rounded-md bg-gray-500 p-1 hover:bg-gray-600"
+        passHref
       >
         Read more
         <ForwardIcon className="h-4 w-4" />

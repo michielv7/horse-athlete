@@ -1,33 +1,47 @@
-import { fetchServerSideData } from '#/lib/helpers/fetchServer';
+'use client';
+
+import { fetchData } from '#/lib/helpers/fetch';
 import { SaddlesOverview } from '#/lib/types/saddleTypes';
 import { stringify } from 'qs';
-import { SaddleCard } from './SaddleCard';
+import useSWR from 'swr';
+import { LoadingElement } from '#/ui/SkeletonCard';
+import { TableHead } from './table/TableHead';
+import { TableBody } from './table/TableBody';
+import { toast } from 'react-hot-toast';
 
-export const SaddleOverview = async () => {
+export const SaddleOverview = () => {
   const query = stringify(
     {
       fields: ['name', 'description'],
     },
     { encodeValuesOnly: true, addQueryPrefix: true },
   );
-  const data = await fetchServerSideData({
-    url: `/api/saddles${query}`,
-    method: 'GET',
-    authorized: true,
-  })
-    .then(SaddlesOverview.parse)
-    .catch(() => console.log('something went wrong'));
+  const fetcher = (url: string) =>
+    toast.promise(
+      fetchData({
+        url,
+        method: 'GET',
+        authorized: true,
+      }).then(SaddlesOverview.parse),
+      {
+        loading: 'Loading the saddles',
+        success: 'Loaded the saddles',
+        error: 'There was an error loading the saddles',
+      },
+    );
 
-  if (!data) return <div>There was problem fetching your data</div>;
+  const { data, isLoading, error } = useSWR(`/api/saddles${query}`, fetcher);
 
-  const { data: saddles, meta } = data;
+  if (isLoading) return <LoadingElement />;
+  if (error) return <div>Error...</div>;
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {saddles.map((saddle) => (
-          <SaddleCard key={saddle.id} saddle={saddle} />
-        ))}
+      <div className="relative overflow-x-auto rounded-md">
+        <table className="w-full table-auto">
+          <TableHead />
+          <TableBody data={data!} />
+        </table>
       </div>
       {/* <Pagination
         pagination={{

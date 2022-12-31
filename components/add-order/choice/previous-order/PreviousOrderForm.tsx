@@ -19,7 +19,7 @@ export const PreviousOrderForm = ({
   saveNameKeysLocalStorage(saddleAttributes);
   return (
     <form onSubmit={handleSubmitOrder}>
-      <style jsx global>{`
+      <style>{`
         input,
         textarea,
         select {

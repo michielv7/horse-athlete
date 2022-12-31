@@ -44,6 +44,7 @@ export default function ProfileDetails({ data }: { data: DetailsType }) {
               },
             }}
             className="flex flex-row items-center justify-center gap-2 rounded-tl rounded-bl bg-slate-800 p-3 text-center hover:bg-slate-900"
+            passHref
           >
             <PencilIcon className="h-4 w-4" />
             Change Information
@@ -51,6 +52,7 @@ export default function ProfileDetails({ data }: { data: DetailsType }) {
           <Link
             href={{ pathname: '/personal-account/edit/password' }}
             className="flex flex-row items-center justify-center gap-2 rounded-tr rounded-br bg-slate-800 p-3 text-center hover:bg-slate-900"
+            passHref
           >
             <FingerPrintIcon className="h-4 w-4" />
             Change password

@@ -1,64 +1,64 @@
-import { fetchServerSideData } from '#/lib/helpers/fetchServer';
-import { stringify } from 'qs';
-import { UserOverview as UserOverviewSchema } from '#/lib/types/userOverview';
-import Link from 'next/link';
-import { PlusIcon } from '@heroicons/react/24/outline';
-import { TableHead } from './table/TableHead';
-import { SortType } from '#/lib/types/sort';
-import { TableBody } from './table/TableBody';
+'use client';
 
-export const UserOverview = async ({
-  searchParams,
-}: {
-  searchParams?: { sortField: string; sortDirection: SortType };
-}) => {
-  const { sortField, sortDirection } = searchParams ?? {
+import { fetchData } from '#/lib/helpers/fetch';
+import { ISorting } from '#/lib/intefaces/sorting';
+import { UserOverview as UserOverviewSchema } from '#/lib/types/userOverview';
+import { LoadingElement } from '#/ui/SkeletonCard';
+import { stringify } from 'qs';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import useSWR from 'swr';
+import { TableBody } from './table/TableBody';
+import { TableHead } from './table/TableHead';
+
+export const UserOverview = () => {
+  const [sorting, setSorting] = useState<ISorting>({
     sortField: '',
     sortDirection: '',
-  };
+  });
 
   const query = stringify(
     {
-      sort: sortField ? `${sortField}:${sortDirection}` : undefined,
+      sort: sorting.sortField
+        ? `${sorting.sortField}:${sorting.sortDirection}`
+        : undefined,
       fields: ['username', 'email', 'isSubscribed', 'type', 'blocked'],
     },
     { encodeValuesOnly: true, addQueryPrefix: true },
   );
 
-  const data = await fetchServerSideData({
-    url: `/api/users${query}`,
-    method: 'GET',
-    authorized: true,
-    options: {
-      cache: 'reload',
-      next: { revalidate: 60 },
-    },
-  }).then(UserOverviewSchema.safeParse);
+  const fetcher = (url: string) =>
+    toast.promise(
+      fetchData({ url, method: 'GET', authorized: true }).then(
+        UserOverviewSchema.parse,
+      ),
+      {
+        loading: `Sorting on ${
+          sorting.sortField ? sorting.sortField : 'no specific field'
+        }`,
+        success: `Sorted on ${
+          sorting.sortField ? sorting.sortField : 'no specific field.'
+        }`,
+        error: 'Failed to sort...',
+      },
+    );
 
-  if (!data || !data.success) return <div>Unable to fetch userdata</div>;
+  const {
+    data: users,
+    isLoading,
+    error,
+  } = useSWR(`/api/users${query}`, fetcher, { keepPreviousData: true });
 
-  const { data: users } = data;
+  if (isLoading) return <LoadingElement />;
+
+  if (error) return <div>Error..</div>;
 
   return (
-    <>
-      <Link
-        className="mb-3 ml-auto flex w-auto flex-row items-center gap-1 rounded-md bg-slate-500 p-2 hover:bg-slate-800"
-        href={'/user-overview/create'}
-      >
-        <PlusIcon className="h-4 w-4" />
-        Create a new user
-      </Link>
-      <div className="relative overflow-x-auto rounded-md">
-        <table className="w-full table-auto">
-          <TableHead
-            sorting={{
-              sortField,
-              sortDirection,
-            }}
-          />
-          <TableBody users={users} />
-        </table>
-      </div>
-    </>
+    <div className="relative overflow-x-auto rounded-md">
+      <table className="w-full table-auto">
+        <TableHead sorting={sorting} setSorting={setSorting} />
+        <TableBody users={users!} />
+      </table>
+    </div>
   );
 };

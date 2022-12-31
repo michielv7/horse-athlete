@@ -4,14 +4,13 @@ import { useDetailForm } from '#/hooks/personal-account/useDetailForm';
 import { Button } from '#/ui/SubmitButton';
 
 export const DetailForm = () => {
-  const { register, handleSubmit, errors, message } = useDetailForm();
+  const { register, handleSubmit, errors } = useDetailForm();
   return (
     <form
       className="mx-auto grid w-1/2 grid-flow-row"
       onSubmit={handleSubmit()}
     >
       <ul className="flex flex-col items-center text-red-500">
-        <li>{message}</li>
         <li>{errors.username?.message}</li>
         <li>{errors.email?.message}</li>
         <li>{errors.isSubscribed?.message}</li>
@@ -34,7 +33,7 @@ export const DetailForm = () => {
 
       <div className="mb-3">
         <label
-          htmlFor="subscribed"
+          htmlFor="isSubscribed"
           className="inline-flex items-center justify-center"
         >
           <input

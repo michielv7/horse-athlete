@@ -1,11 +1,12 @@
 import { UserOverviewType } from '#/lib/types/userOverview';
 import clsx from 'clsx';
+import Link from 'next/link';
 import { BlockingButton } from './BlockingButton';
 
 export const TableBody = ({ users }: { users: UserOverviewType }) => {
   return (
     <tbody>
-      {users.map((user, i) => (
+      {users?.map((user, i) => (
         <tr
           key={user.id}
           className={clsx('text-center', {
@@ -24,7 +25,7 @@ export const TableBody = ({ users }: { users: UserOverviewType }) => {
           <td>
             {user.type !== 'admin' ? (
               <>
-                <a href={`/user-overview/edit/${user.id}`}>Edit</a> |{' '}
+                <Link href={`/user-overview/edit/${user.id}`}>Edit</Link> |{' '}
                 <BlockingButton userId={user.id} blocking={!user.blocked} />
               </>
             ) : (

@@ -4,7 +4,7 @@ import { usePasswordForm } from '#/hooks/personal-account/usePasswordForm';
 import { Button } from '#/ui/SubmitButton';
 
 export const PasswordForm = () => {
-  const { register, handleSubmit, errors, message } = usePasswordForm();
+  const { register, handleSubmit, errors } = usePasswordForm();
   return (
     <form
       className="mx-auto mt-4 grid w-1/2 grid-flow-row space-y-2"
@@ -14,7 +14,6 @@ export const PasswordForm = () => {
         <li>{errors.currentPassword?.message}</li>
         <li>{errors.password?.message}</li>
         <li>{errors.passwordConfirmation?.message}</li>
-        <li>{message}</li>
       </ul>
       <label htmlFor="currentPassword">Current Password</label>
       <input

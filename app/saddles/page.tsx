@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { SaddleOverview } from '#/components/saddles/Overview';
+import { isAdmin } from '#/lib/helpers/serverAuthorization';
+import { notFound } from 'next/navigation';
 
 export default function Page() {
+  if (!isAdmin()) notFound();
   return (
     <div className="text-white">
       <div className="heading mb-2 flex flex-col items-center justify-center gap-x-2">
@@ -17,7 +20,6 @@ export default function Page() {
           Create a new saddle
         </Link>
       </div>
-      {/* @ts-expect-error Server Component */}
       <SaddleOverview />
     </div>
   );

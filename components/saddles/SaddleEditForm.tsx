@@ -19,7 +19,7 @@ export const SaddleEditForm = ({ saddle }: { saddle: SaddleType }) => {
 
   return (
     <>
-      <style jsx global>
+      <style>
         {`
           input,
           select,

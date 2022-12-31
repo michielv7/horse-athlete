@@ -18,7 +18,7 @@ export const CreateSaddleForm = ({
 
   return (
     <>
-      <style jsx global>
+      <style>
         {`
           input,
           select,

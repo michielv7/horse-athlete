@@ -1,9 +1,9 @@
-import { OrderOverview as OrderOverviewParser } from '#/lib/types/orderOverview';
-import { fetchServerSideData } from '#/lib/helpers/fetchServer';
+import {
+  fetchOrders,
+  fetchStatuses,
+} from '#/lib/helpers/order-overview/fetchingData';
+import { getUser } from '#/lib/helpers/serverAuthorization';
 import { SortType } from '#/lib/types/sort';
-import { stringify } from 'qs';
-import { cookies } from 'next/headers';
-import { CookieType } from '#/lib/types/login';
 import { OrderOverviewTable } from './OrderOverviewTable';
 
 export const OrderOverview = async ({
@@ -11,41 +11,33 @@ export const OrderOverview = async ({
 }: {
   searchParams: { sortField: string; sortDirection: SortType };
 }) => {
-  const cookie = JSON.parse(cookies().get('user')?.value!) as CookieType;
+  const user = getUser();
   const { sortField, sortDirection } = searchParams ?? {
     sortField: '',
     sortDirection: '',
   };
-  const orderQuery = stringify(
-    {
-      sort: sortField ? `${sortField}:${sortDirection}` : undefined,
-      populate: '*',
-      filters: {
-        saddleFitter: {
-          id: cookie.user.type === 'fitter' ? cookie.user.id : undefined,
-        },
-      },
-    },
-    { encodeValuesOnly: true, addQueryPrefix: true },
-  );
 
-  const data = await fetchServerSideData({
-    url: `/api/orders${orderQuery}`,
-    method: 'GET',
-    authorized: true,
-  }).then(OrderOverviewParser.safeParse);
+  const statusData = await fetchStatuses();
 
-  if (!data.success) return <div>Unable to fetch your orders</div>;
+  const orderData = await fetchOrders({
+    sorting: { sortField, sortDirection },
+    userInfo: user,
+  });
 
+  if (!statusData.success) return <div>Unable to fetch the statuses</div>;
+  if (!orderData.success) return <div>Unable to fetch your orders</div>;
+
+  const { data: statuses } = statusData;
   const {
     data: { data: orders, meta },
-  } = data;
+  } = orderData;
 
   return (
     <>
       <OrderOverviewTable
         sorting={{ sortField, sortDirection }}
         orders={orders}
+        orderStatuses={statuses}
       />
     </>
   );

@@ -1,6 +1,8 @@
 import { OrderOverview } from '#/components/order-overview/OrderOverview';
 import { SortType } from '#/lib/types/sort';
 
+export const revalidate = 30;
+
 export default async function Page({
   searchParams,
 }: {

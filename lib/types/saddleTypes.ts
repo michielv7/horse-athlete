@@ -84,3 +84,5 @@ export const SaddleFieldsAmount = z.object({
 });
 
 export type SaddleFieldsAmountType = z.infer<typeof SaddleFieldsAmount>;
+
+export type SaddlesOverviewType = z.infer<typeof SaddlesOverview>;

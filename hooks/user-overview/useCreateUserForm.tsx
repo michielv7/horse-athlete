@@ -2,16 +2,15 @@ import { fetchData } from '#/lib/helpers/fetch';
 import { UserCreateFormType, User } from '#/lib/types/userOverview';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 export const useCreateUserForm = () => {
   const { push } = useRouter();
-  const [message, setMessage] = useState('');
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<UserCreateFormType>({
     defaultValues: {
       type: 'fitter',
@@ -30,14 +29,15 @@ export const useCreateUserForm = () => {
       body: data,
     })
       .then(User.omit({ password: true }).parse)
-      .then(() => push('/user-overview'))
-      .catch(() => setMessage('There was an error creating the user'));
+      .then(() => {
+        toast.success('User created!');
+        push('/user-overview');
+      })
+      .catch(() => toast.error('There was an error creating the user'));
 
   return {
     register,
     handleSubmit: () => handleSubmit(onSubmit),
-    message,
-    errors,
     isSubmitting,
   };
 };

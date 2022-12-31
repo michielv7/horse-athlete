@@ -1,12 +1,16 @@
 import { SaddleEditForm } from '#/components/saddles/SaddleEditForm';
 import { fetchServerSideData } from '#/lib/helpers/fetchServer';
+import { isAdmin } from '#/lib/helpers/serverAuthorization';
 import { Saddle } from '#/lib/types/saddleTypes';
+import { notFound } from 'next/navigation';
 
 export default async function Page({
   searchParams,
 }: {
   searchParams?: { saddleId: string };
 }) {
+  if (!isAdmin()) notFound();
+
   const data = await fetchServerSideData({
     url: `/api/saddles/${searchParams?.saddleId!}`,
     method: 'GET',

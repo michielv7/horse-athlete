@@ -1,4 +1,6 @@
 import { CreateSaddleForm } from '#/components/saddles/CreateSaddleForm';
+import { isAdmin } from '#/lib/helpers/serverAuthorization';
+import { notFound } from 'next/navigation';
 
 export default function Page({
   searchParams,
@@ -9,6 +11,8 @@ export default function Page({
     selectionAmount: string;
   };
 }) {
+  if (!isAdmin()) notFound();
+
   const textAmount = searchParams?.textAmount ?? '0',
     numberAmount = searchParams?.numberAmount ?? '0',
     selectionAmount = searchParams?.selectionAmount ?? '0';

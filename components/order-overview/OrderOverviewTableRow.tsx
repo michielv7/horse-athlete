@@ -1,11 +1,17 @@
-import { DetailedOrderType } from '#/lib/types/orderOverview';
+import {
+  DetailedOrderType,
+  OrderStatusArrayType,
+} from '#/lib/types/orderOverview';
 import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
+import { StatusChoice } from './StatusChoice';
 
 export const OrderOverviewTableRow = ({
   order,
+  orderStatuses,
 }: {
   order: DetailedOrderType;
+  orderStatuses: OrderStatusArrayType;
 }) => {
   return (
     <tr
@@ -17,7 +23,15 @@ export const OrderOverviewTableRow = ({
       </td>
       <td>{order.attributes.orderAttributes.seatSize}</td>
       <td>{order.attributes.orderAttributes.colourOfSaddle}</td>
-      <td>{order.attributes.orderStatus.data.attributes.statusName}</td>
+      <td>
+        <StatusChoice
+          orderId={order.id}
+          currentStatusId={
+            order.attributes.orderStatus.data.id
+          }
+          orderStatuses={orderStatuses}
+        />
+      </td>
       <td>{order.attributes.orderAttributes.customersName}</td>
       <td>{format(parseISO(order.attributes.createdAt), 'MM/dd/yyyy')}</td>
       <td>{format(parseISO(order.attributes.updatedAt), 'MM/dd/yyyy')}</td>

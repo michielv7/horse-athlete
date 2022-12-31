@@ -1,8 +1,9 @@
 import { fetchData } from '#/lib/helpers/fetch';
 import { processAttributes } from '#/lib/helpers/saddles/proccessInput';
-import { SaddleBody } from '#/lib/types/saddleTypes';
+import { Saddle, SaddleBody } from '#/lib/types/saddleTypes';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { ZodError } from 'zod';
 
 export const useCreateSaddleForm = ({
@@ -34,15 +35,26 @@ export const useCreateSaddleForm = ({
 
     const result = SaddleBody.safeParse(body);
     if (!result.success) return showErrors(result.error);
-
-    await fetchData({
-      url: `/api/saddles${update ? '/' + saddleInfo?.saddleId : ''}`,
-      method: update ? 'PUT' : 'POST',
-      body: { data: result.data },
-      authorized: true,
-    });
-
-    push('/saddles');
+    toast.promise(
+      fetchData({
+        url: `/api/saddles${update ? '/' + saddleInfo?.saddleId : ''}`,
+        method: update ? 'PUT' : 'POST',
+        body: { data: result.data },
+        authorized: true,
+      }).then((res) => Saddle.parse(res.data)),
+      {
+        loading: `${update ? 'Updating' : 'Creating'} saddle...`,
+        success: (data) => {
+          push('/saddles');
+          return `${update ? 'Updated' : 'Created'} saddle (${
+            data.attributes.name
+          })`;
+        },
+        error: `There was an error ${
+          update ? 'updating' : 'creating'
+        } the saddle`,
+      },
+    );
   };
 
   const showErrors = (formErrors: ZodError) => {

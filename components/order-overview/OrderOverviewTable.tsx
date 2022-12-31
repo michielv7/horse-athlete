@@ -1,11 +1,16 @@
-import { OrderArrayType } from '#/lib/types/orderOverview';
+import {
+  OrderArrayType,
+  OrderStatusArrayType,
+} from '#/lib/types/orderOverview';
 import { OrderOverviewTableHead } from './OrderOverviewTableHead';
 import { OrderOverviewTableRow } from './OrderOverviewTableRow';
 
 export const OrderOverviewTable = ({
+  orderStatuses,
   orders,
   sorting,
 }: {
+  orderStatuses: OrderStatusArrayType;
   orders: OrderArrayType;
   sorting: { sortField: string; sortDirection: string };
 }) => {
@@ -16,7 +21,7 @@ export const OrderOverviewTable = ({
           <OrderOverviewTableHead sorting={sorting} />
           <tbody>
             {orders.map((order) => (
-              <OrderOverviewTableRow key={order.id} order={order} />
+              <OrderOverviewTableRow key={order.id} order={order} orderStatuses={orderStatuses} />
             ))}
           </tbody>
         </table>

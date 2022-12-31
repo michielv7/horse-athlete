@@ -9,7 +9,7 @@ export const SaddleFieldAmountForm = () => {
       className="mx-auto grid w-1/2 grid-cols-2 items-center gap-1 rounded-md bg-slate-600 p-4 text-white"
       onSubmit={handleSubmit()}
     >
-      <style jsx>{`
+      <style>{`
         input {
           color: black;
         }

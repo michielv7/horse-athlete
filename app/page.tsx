@@ -1,7 +1,9 @@
 import { demos } from '#/lib/demos';
+import { isAdmin } from '#/lib/helpers/serverAuthorization';
 import Link from 'next/link';
 
 export default async function Page() {
+  const admin = isAdmin();
   return (
     <div className="space-y-6">
       <div className="space-y-8 text-white">
@@ -18,13 +20,14 @@ export default async function Page() {
 
                 <div className="grid grid-cols-2 gap-5">
                   {section.items
-                    .filter((item) => !item.isDisabled)
+                    .filter((item) => !item.isDisabled && ((item.forAdmin === admin || item.forFitter === !admin) || item.isPublic))
                     .map((item) => {
                       return (
                         <Link
                           href={`/${item.slug}`}
                           key={item.name}
                           className="block space-y-1.5 rounded-lg border border-white/10 px-4 py-3 hover:border-white/20"
+                          passHref
                         >
                           <div>{item.name}</div>
 
