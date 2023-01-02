@@ -4,7 +4,10 @@ import { NewslettersOverviewData } from '#/lib/types/newsletter';
 import { stringify } from 'qs';
 
 export default async function Page() {
-  const query = stringify({ populate: '*' }, { encodeValuesOnly: true });
+  const query = stringify(
+    { populate: '*', pagination: { pageSize: 100 } },
+    { encodeValuesOnly: true },
+  );
   const data = await fetchServerSideData({
     url: `/api/newsletters?${query}`,
     method: 'GET',

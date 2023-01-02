@@ -1,4 +1,4 @@
-import { ISorting } from '#/lib/intefaces/sorting';
+import { ISorting } from '#/lib/interfaces/sorting';
 import {
   Bars4Icon,
   BarsArrowUpIcon,

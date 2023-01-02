@@ -1,49 +1,28 @@
-import { demos } from '#/lib/demos';
-import { isAdmin } from '#/lib/helpers/serverAuthorization';
-import Link from 'next/link';
+import { LoginForm } from '#/components/login/LoginForm';
 
-export default async function Page() {
-  const admin = isAdmin();
+export default function Page() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-8 text-white">
-        {demos
-          .filter((section) =>
-            section?.items?.some((x) => typeof x.isDisabled === 'undefined'),
-          )
-          .map((section) => {
-            return (
-              <div key={section.name} className="space-y-3">
-                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  {section.name}
-                </div>
-
-                <div className="grid grid-cols-2 gap-5">
-                  {section.items
-                    .filter((item) => !item.isDisabled && ((item.forAdmin === admin || item.forFitter === !admin) || item.isPublic))
-                    .map((item) => {
-                      return (
-                        <Link
-                          href={`/${item.slug}`}
-                          key={item.name}
-                          className="block space-y-1.5 rounded-lg border border-white/10 px-4 py-3 hover:border-white/20"
-                          passHref
-                        >
-                          <div>{item.name}</div>
-
-                          {item.description ? (
-                            <div className="line-clamp-3 text-sm text-gray-400">
-                              {item.description}
-                            </div>
-                          ) : null}
-                        </Link>
-                      );
-                    })}
+    <section className="gradient-form bg-1B1C1E h-full ">
+      <div className="container h-full py-12 px-6">
+        <div className="g-6 bg-1B1C1E flex h-full flex-wrap items-center justify-center">
+          <div className="xl:w-10/12">
+            <div className="w-2/2 block rounded-lg bg-white shadow-lg">
+              <div className="">
+                <div className="lg:w-12/12 m-auto px-4 md:px-0">
+                  <div className="md:mx-6 md:p-12">
+                    <div className="text-center">
+                      <h4 className="font-Thasadith mt-1 mb-12 pb-1 text-4xl font-semibold text-gray-900">
+                        HorseAthlete
+                      </h4>
+                    </div>
+                    <LoginForm />
+                  </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

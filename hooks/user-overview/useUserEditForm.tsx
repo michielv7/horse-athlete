@@ -4,10 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
 export const useUserEditForm = ({ user }: { user: EditUserForm }) => {
-  const {
-    register,
-    handleSubmit,
-  } = useForm<EditUserForm>({
+  const { register, handleSubmit } = useForm<EditUserForm>({
     defaultValues: user,
   });
 

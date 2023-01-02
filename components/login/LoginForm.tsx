@@ -44,7 +44,7 @@ export const LoginForm = () => {
             data-mdb-ripple-color="light"
           />
 
-          <Link className="block text-gray-500" href={'/login/forgot-password'}>
+          <Link className="block text-gray-500" href={'/forgot-password'}>
             Forgot password?
           </Link>
         </div>

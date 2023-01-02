@@ -1,17 +1,10 @@
 import { OrderOverview } from '#/components/order-overview/OrderOverview';
-import { SortType } from '#/lib/types/sort';
 
-export const revalidate = 30;
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: { sortField: string; sortDirection: SortType };
-}) {
+export default function Page() {
   return (
     <div>
-      {/* @ts-expect-error Server Component */}
-      <OrderOverview searchParams={searchParams} />
+      <h1 className='text-center font-bold text-2xl mb-2'>Order Overview</h1>
+      <OrderOverview />
     </div>
   );
 }

@@ -5,12 +5,12 @@ import { Order } from '#/lib/types/order';
 import {
   ChangeStatus,
   ChangeStatusType,
+  DetailedOrder,
   OrderStatusArrayType,
 } from '#/lib/types/orderOverview';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 export const StatusChoice = ({
   orderId,
@@ -21,24 +21,26 @@ export const StatusChoice = ({
   currentStatusId: number;
   orderStatuses: OrderStatusArrayType;
 }) => {
-  const { refresh } = useRouter();
-  const [, startTransition] = useTransition();
   const { register, handleSubmit } = useForm<ChangeStatusType>({
     defaultValues: { orderStatus: currentStatusId },
     resolver: zodResolver(ChangeStatus),
   });
 
-  const onSubmit: SubmitHandler<ChangeStatusType> = async (data) => {
-    const response = await fetchData({
-      url: `/api/orders/${orderId}`,
-      method: 'PUT',
-      authorized: true,
-      body: { data },
-    })
-      .then((res) => Order.parse(res.data))
-      .catch(() => alert('Something went wrong updating the orderstatus'));
-
-    if (response) startTransition(() => refresh());
+  const onSubmit: SubmitHandler<ChangeStatusType> = (data) => {
+    return toast.promise(
+      fetchData({
+        url: `/api/orders/${orderId}?populate=*`,
+        method: 'PUT',
+        authorized: true,
+        body: { data },
+      }).then((res) => DetailedOrder.parse(res.data)),
+      {
+        loading: `Updating the status of order with id ${orderId}`,
+        success: (data) =>
+          `Updated the status to '${data.attributes.orderStatus.data.attributes.statusName}' for order with id ${orderId}`,
+        error: 'There was an error updating the saddle',
+      },
+    );
   };
 
   return (

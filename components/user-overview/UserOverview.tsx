@@ -1,7 +1,7 @@
 'use client';
 
 import { fetchData } from '#/lib/helpers/fetch';
-import { ISorting } from '#/lib/intefaces/sorting';
+import { ISorting } from '#/lib/interfaces/sorting';
 import { UserOverview as UserOverviewSchema } from '#/lib/types/userOverview';
 import { LoadingElement } from '#/ui/SkeletonCard';
 import { stringify } from 'qs';

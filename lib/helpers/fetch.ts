@@ -1,4 +1,4 @@
-import { getCookie } from 'cookies-next';
+import { getCookie, hasCookie } from 'cookies-next';
 import { CookieType } from 'types/login';
 
 export const fetchData = async ({
@@ -22,7 +22,7 @@ export const fetchData = async ({
   };
 
   if (authorized) {
-    const cookie = <CookieType>JSON.parse(<string>getCookie('user'));
+    const cookie = <CookieType>JSON.parse(getCookie('user', { path: '/' })!.toString());
     headers.Authorization = `Bearer ${cookie.jwt}`;
   }
 

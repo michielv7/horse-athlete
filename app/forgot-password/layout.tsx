@@ -2,7 +2,7 @@
 
 import { Toaster } from 'react-hot-toast';
 
-export default function CreateSaddleLayout({
+export default function ForgotPasswordLayout({
   children,
 }: {
   children: React.ReactNode;

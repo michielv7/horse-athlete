@@ -1,3 +1,4 @@
+import { SaddlesDataType } from '#/lib/types/addOrder';
 import { SaddlesOverviewType } from '#/lib/types/saddleTypes';
 import {
   DocumentPlusIcon,
@@ -6,11 +7,7 @@ import {
 import clsx from 'clsx';
 import Link from 'next/link';
 
-export const TableBody = ({
-  data: { data: saddles },
-}: {
-  data: SaddlesOverviewType;
-}) => {
+export const TableBody = ({ saddles }: { saddles: SaddlesDataType }) => {
   return (
     <tbody>
       {saddles.map((saddle, i) => (

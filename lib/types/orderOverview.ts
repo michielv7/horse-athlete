@@ -12,7 +12,7 @@ export const OrderStatus = z.object({
 
 export const ChangeStatus = z.object({
   orderStatus: z.coerce.number(),
-})
+});
 
 export const OrderStatusArray = z.array(OrderStatus);
 
@@ -59,4 +59,4 @@ export type DetailedOrderType = z.infer<typeof DetailedOrder>;
 
 export type OrderOverviewType = z.infer<typeof OrderOverview>;
 
-export type ChangeStatusType = z.infer<typeof ChangeStatus>
+export type ChangeStatusType = z.infer<typeof ChangeStatus>;

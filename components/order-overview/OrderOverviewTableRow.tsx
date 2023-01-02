@@ -26,9 +26,7 @@ export const OrderOverviewTableRow = ({
       <td>
         <StatusChoice
           orderId={order.id}
-          currentStatusId={
-            order.attributes.orderStatus.data.id
-          }
+          currentStatusId={order.attributes.orderStatus.data.id}
           orderStatuses={orderStatuses}
         />
       </td>

@@ -38,7 +38,10 @@ export const Profile = () => {
     data: user,
     isLoading,
     error,
-  } = useSWR(`/api/users/me${query}`, fetchUserDetails);
+  } = useSWR(`/api/users/me${query}`, fetchUserDetails, {
+    dedupingInterval: 120_000,
+    revalidateOnFocus: false,
+  });
 
   if (isLoading)
     return (

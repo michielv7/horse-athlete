@@ -32,7 +32,7 @@ export const useLoginForm = () => {
           path: '/',
         });
         router.refresh();
-        router.push('/');
+        router.push('/home');
       })
       .catch(() => setMessage('Incorrect credentials'));
 

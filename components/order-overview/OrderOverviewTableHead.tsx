@@ -1,3 +1,4 @@
+import { ISortingSetters } from '#/lib/interfaces/sorting';
 import {
   Bars4Icon,
   BarsArrowUpIcon,
@@ -50,9 +51,9 @@ const cols = {
 } as const;
 
 export const OrderOverviewTableHead = ({
-  sorting: { sortField, sortDirection },
+  sorting: { sortField, sortDirection, setSorting },
 }: {
-  sorting: { sortField: string; sortDirection: string };
+  sorting: ISortingSetters;
 }) => {
   return (
     <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -63,37 +64,32 @@ export const OrderOverviewTableHead = ({
               {col.displayName}
               {col.fieldName !== '' ? (
                 col.fieldName === sortField && sortDirection === 'asc' ? (
-                  <Link
-                    href={{
-                      pathname: '/order-overview',
-                      query: {
+                  <cols.ascIcon
+                    className="h-3 w-3 hover:cursor-pointer"
+                    onClick={() =>
+                      setSorting({
                         sortField: col.fieldName,
                         sortDirection: 'desc',
-                      },
-                    }}
-                    replace
-                    passHref
-                  >
-                    <cols.ascIcon className="h-3 w-3 hover:cursor-pointer" />
-                  </Link>
+                      })
+                    }
+                  />
                 ) : col.fieldName === sortField && sortDirection === 'desc' ? (
-                  <Link href={{ pathname: '/order-overview' }} replace passHref>
-                    <cols.descIcon className="h-3 w-3 hover:cursor-pointer" />
-                  </Link>
+                  <cols.descIcon
+                    className="h-3 w-3 hover:cursor-pointer"
+                    onClick={() =>
+                      setSorting({ sortField: '', sortDirection: '' })
+                    }
+                  />
                 ) : (
-                  <Link
-                    href={{
-                      pathname: '/order-overview',
-                      query: {
+                  <cols.noFilterIcon
+                    className="h-3 w-3 hover:cursor-pointer"
+                    onClick={() =>
+                      setSorting({
                         sortField: col.fieldName,
                         sortDirection: 'asc',
-                      },
-                    }}
-                    replace
-                    passHref
-                  >
-                    <cols.noFilterIcon className="h-3 w-3 hover:cursor-pointer" />
-                  </Link>
+                      })
+                    }
+                  />
                 )
               ) : null}
             </p>

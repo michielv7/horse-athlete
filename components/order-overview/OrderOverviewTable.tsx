@@ -1,3 +1,4 @@
+import { ISortingSetters } from '#/lib/interfaces/sorting';
 import {
   OrderArrayType,
   OrderStatusArrayType,
@@ -12,7 +13,7 @@ export const OrderOverviewTable = ({
 }: {
   orderStatuses: OrderStatusArrayType;
   orders: OrderArrayType;
-  sorting: { sortField: string; sortDirection: string };
+  sorting: ISortingSetters;
 }) => {
   return (
     <>
@@ -20,22 +21,16 @@ export const OrderOverviewTable = ({
         <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
           <OrderOverviewTableHead sorting={sorting} />
           <tbody>
-            {orders.map((order) => (
-              <OrderOverviewTableRow key={order.id} order={order} orderStatuses={orderStatuses} />
+            {orders?.map((order) => (
+              <OrderOverviewTableRow
+                key={order.id}
+                order={order}
+                orderStatuses={orderStatuses}
+              />
             ))}
           </tbody>
         </table>
       </div>
-      {/* <Pagination
-        pagination={{
-          page,
-          setPage,
-          pageSize,
-          setPageSize,
-          pageCount,
-          multiplyValue: 4,
-        }}
-      /> */}
     </>
   );
 };

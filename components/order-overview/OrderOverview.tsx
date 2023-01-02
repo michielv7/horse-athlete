@@ -1,43 +1,36 @@
-import {
-  fetchOrders,
-  fetchStatuses,
-} from '#/lib/helpers/order-overview/fetchingData';
-import { getUser } from '#/lib/helpers/serverAuthorization';
-import { SortType } from '#/lib/types/sort';
+'use client';
+
 import { OrderOverviewTable } from './OrderOverviewTable';
+import { LoadingElement } from '#/ui/SkeletonCard';
+import { useOrderOverview } from '#/hooks/order-overview/useOrderOverview';
+import { Pagination } from '#/ui/Pagination';
 
-export const OrderOverview = async ({
-  searchParams,
-}: {
-  searchParams: { sortField: string; sortDirection: SortType };
-}) => {
-  const user = getUser();
-  const { sortField, sortDirection } = searchParams ?? {
-    sortField: '',
-    sortDirection: '',
-  };
-
-  const statusData = await fetchStatuses();
-
-  const orderData = await fetchOrders({
-    sorting: { sortField, sortDirection },
-    userInfo: user,
-  });
-
-  if (!statusData.success) return <div>Unable to fetch the statuses</div>;
-  if (!orderData.success) return <div>Unable to fetch your orders</div>;
-
-  const { data: statuses } = statusData;
+export const OrderOverview = () => {
   const {
-    data: { data: orders, meta },
-  } = orderData;
+    sorting,
+    pagination,
+    statuses: { statuses, isStatusLoading },
+    orders: { orderData, isOrdersLoading, error },
+  } = useOrderOverview();
+
+  if (isOrdersLoading || isStatusLoading) return <LoadingElement />;
+  if (error) return <div>Error</div>;
+
+  const { data: orders, meta } = orderData!;
 
   return (
     <>
       <OrderOverviewTable
-        sorting={{ sortField, sortDirection }}
+        sorting={sorting}
         orders={orders}
-        orderStatuses={statuses}
+        orderStatuses={statuses!}
+      />
+      <Pagination
+        pagination={{
+          ...pagination,
+          multiplyValue: 5,
+          pageCount: meta.pagination.pageCount,
+        }}
       />
     </>
   );
