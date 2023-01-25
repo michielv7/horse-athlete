@@ -1,9 +1,9 @@
-import { Profile } from '#/components/personal-account/profile/Profile';
-import Statistics from '#/components/personal-account/stats/Stats';
-import { fetchUserStats } from '#/lib/helpers/personal-account/fetchUserStats';
+import { ReactNode } from 'react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { Profile } from '#/components/personal-account/Profile/Profile';
+import { fetchUserStats } from '#/lib/helpers/personal-account/fetchUserStats';
+import Statistics from '#/components/personal-account/stats/Stats';
 
 export default async function PersonalAccountLayout({
   children,

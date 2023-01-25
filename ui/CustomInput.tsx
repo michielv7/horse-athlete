@@ -4,9 +4,9 @@ interface CustomInput extends React.HTMLProps<HTMLInputElement> {
 }
 
 export const CustomInput = ({ label, htmlFor, ...props }: CustomInput) => (
-  <div className="relative">
+  <div className="relative mt-2">
     <input
-      className="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:border-blue-600 focus:outline-none focus:ring-0"
+      className="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:border-blue-600 focus:outline-none focus:ring-0 text-white"
       placeholder=" "
       {...props}
     />

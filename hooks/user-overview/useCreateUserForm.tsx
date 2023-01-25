@@ -22,18 +22,22 @@ export const useCreateUserForm = () => {
   });
 
   const onSubmit: SubmitHandler<UserCreateFormType> = (data) =>
-    fetchData({
-      url: '/api/users',
-      method: 'POST',
-      authorized: true,
-      body: data,
-    })
-      .then(User.omit({ password: true }).parse)
-      .then(() => {
-        toast.success('User created!');
-        push('/user-overview');
-      })
-      .catch(() => toast.error('There was an error creating the user'));
+    toast.promise(
+      fetchData({
+        url: '/api/users',
+        method: 'POST',
+        authorized: true,
+        body: data,
+      }).then(User.omit({ password: true }).parse),
+      {
+        loading: 'Creating user...',
+        success: () => {
+          push('/user-overview');
+          return 'User created!';
+        },
+        error: 'There was an error creating the user',
+      },
+    );
 
   return {
     register,

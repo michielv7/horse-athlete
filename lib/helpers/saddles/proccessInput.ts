@@ -24,6 +24,11 @@ export interface IOptions {
   addedPrice: Number;
 }
 
+interface IGettingValues {
+  node: Element;
+  selector: string;
+}
+
 export function processAttributes(body: IBody) {
   const childDivs = document.querySelectorAll('form > div > div');
   body.attributes = [];
@@ -46,7 +51,7 @@ export function processAttributes(body: IBody) {
 
 function processSelection(child: Element, id: string, type: string): IFields {
   const json = processInput(child, id, type);
-  const text = getValue(child, `textarea#textArea-${id}`);
+  const text = getValue({ node: child, selector: `textarea#textArea-${id}` });
   const textArr = text.split('\n').map((el) => el.split(','));
   const options: IOptions[] = [];
 
@@ -60,11 +65,22 @@ function processSelection(child: Element, id: string, type: string): IFields {
 }
 
 function processInput(child: Element, id: string, type: string): IFields {
-  const name = getValue(child, `input#name-${id}`);
-  const description = getValue(child, `input#description-${id}`);
-  const addedPrice = parseInt(getValue(child, `input#addedPrice-${id}`));
-  const isRequired = getBoolean(child, `input#required-${id}`);
-  const isSaddleFitterOnly = getBoolean(child, `input#saddleFitterOnly-${id}`);
+  const name = getValue({ node: child, selector: `input#name-${id}` });
+  const description = getValue({
+    node: child,
+    selector: `input#description-${id}`,
+  });
+  const addedPrice = parseInt(
+    getValue({ node: child, selector: `input#addedPrice-${id}` }),
+  );
+  const isRequired = getBoolean({
+    node: child,
+    selector: `input#required-${id}`,
+  });
+  const isSaddleFitterOnly = getBoolean({
+    node: child,
+    selector: `input#saddleFitterOnly-${id}`,
+  });
 
   return {
     name,
@@ -78,8 +94,12 @@ function processInput(child: Element, id: string, type: string): IFields {
 
 function processNumber(child: Element, id: string, type: string): IFields {
   const json = processInput(child, id, type);
-  const min: number = parseInt(getValue(child, `input#min-${id}`));
-  const max: number = parseInt(getValue(child, `input#max-${id}`));
+  const min: number = parseInt(
+    getValue({ node: child, selector: `input#min-${id}` }),
+  );
+  const max: number = parseInt(
+    getValue({ node: child, selector: `input#max-${id}` }),
+  );
 
   json.limit = {
     min,
@@ -89,8 +109,11 @@ function processNumber(child: Element, id: string, type: string): IFields {
   return json;
 }
 
-const getValue = (node: Element, selector: string): string =>
-  node.querySelector<HTMLInputElement>(selector)!.value;
+const getValue = (args: IGettingValues) =>
+  getNode<HTMLInputElement>(args).value;
 
-const getBoolean = (node: Element, selector: string): boolean =>
-  node.querySelector<HTMLInputElement>(selector)!.checked;
+const getBoolean = (args: IGettingValues) =>
+  getNode<HTMLInputElement>(args).checked;
+
+const getNode = <T extends HTMLElement>({ selector, node }: IGettingValues) =>
+  node.querySelector<T>(selector)!;

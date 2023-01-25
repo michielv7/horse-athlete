@@ -18,26 +18,27 @@ export const SaddleOrderForm = ({
     saddleId: saddle.id.toString(),
     userId,
   });
+  console.log(userId);
   return (
     <form className="grid grid-flow-row gap-3" onSubmit={handleSubmitOrder}>
       <h2 className="border-b border-b-black pb-2 text-center text-xl font-bold">
         Information
       </h2>
       <CustomInput
-        htmlFor="customerName"
+        htmlFor="customersName"
         type="text"
         label="Customer's name *"
         id="customerName"
         required={true}
-        name="customerName"
+        name="customersName"
       />
 
       <CustomInput
-        htmlFor="customerEmail"
+        htmlFor="customersEmail"
         type="email"
         label="Customer's e-mail"
         id="customerEmail"
-        name="customerEmail"
+        name="customersEmail"
       />
 
       <CustomInput

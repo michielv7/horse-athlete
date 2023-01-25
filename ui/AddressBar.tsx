@@ -28,26 +28,22 @@ const AddressBar = () => {
         </div>
         {pathname ? (
           <>
-            <span className="text-gray-600">/</span>
             {pathname
               .split('/')
               .slice(1)
-              .map((segment) => {
-                return (
-                  <Fragment key={segment}>
-                    <span>
-                      <span
-                        key={segment}
-                        className="rounded-full px-1.5 py-0.5 text-gray-100"
-                      >
-                        {segment}
-                      </span>
+              .map((segment) => (
+                <Fragment key={segment}>
+                  <span className="text-gray-600">/</span>
+                  <span>
+                    <span
+                      key={segment}
+                      className="rounded-full px-1.5 py-0.5 text-gray-100"
+                    >
+                      {segment}
                     </span>
-
-                    <span className="text-gray-600">/</span>
-                  </Fragment>
-                );
-              })}
+                  </span>
+                </Fragment>
+              ))}
           </>
         ) : null}
       </div>

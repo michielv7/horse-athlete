@@ -20,7 +20,7 @@ export const useSubmitOrder = ({
     const orderAttributes: Record<string, string | number> = {};
 
     for (let key of keys) {
-      orderAttributes[key.replaceAll('-', ' ')] = formData.get(key)!.toString();
+      orderAttributes[key.replaceAll('-', ' ')] = formData.get(key)?.toString() ?? "weird";
     }
 
     const data = {
@@ -35,7 +35,8 @@ export const useSubmitOrder = ({
       method: 'POST',
       body: { data },
       authorized: true,
-    }).then(() => push('/order-overview'));
+    })
+    // .then(() => push('/order-overview'));
   };
 
   return { handleSubmitOrder };

@@ -18,7 +18,7 @@ export const PreviousOrderForm = ({
   const { handleSubmitOrder } = useSubmitOrder(data);
   saveNameKeysLocalStorage(saddleAttributes);
   return (
-    <form onSubmit={handleSubmitOrder}>
+    <form onSubmit={handleSubmitOrder} className="bg-slate-600 p-3 rounded-md">
       <style>{`
         input,
         textarea,
@@ -34,7 +34,7 @@ export const PreviousOrderForm = ({
       ))}
       <button
         type="submit"
-        className="col-span-2 mx-auto w-1/3 rounded-md bg-slate-500 p-2 transition delay-150 duration-300 ease-in-out hover:-translate-y-1  hover:scale-110 hover:bg-slate-800"
+        className="col-span-2 w-1/3 mx-auto  rounded-md bg-slate-500 p-2 transition delay-150 duration-300 ease-in-out hover:-translate-y-1  hover:scale-110 hover:bg-slate-800 mt-4"
       >
         Submit
       </button>

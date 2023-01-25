@@ -14,19 +14,15 @@ export const fetchServerSideData = async ({
   authorized: boolean;
   options?: Omit<RequestInit, 'headers' | 'method' | 'body'>;
 }) => {
-  const headers = {
+  const headers: HeadersInit = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-  } as {
-    Accept: string;
-    'Content-Type': string;
-    Authorization?: string;
   };
 
   if (authorized) {
     const nextCookie = cookies();
     const cookie = JSON.parse(nextCookie.get('user')?.value!) as CookieType;
-    headers.Authorization = `Bearer ${cookie.jwt}`;
+    headers['Authorization'] = `Bearer ${cookie.jwt}`;
   }
 
   return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {

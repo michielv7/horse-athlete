@@ -38,10 +38,12 @@ export default async function Page({
   const { id: userId } = getUser();
 
   return (
-    <PreviousOrderForm
-      data={{ saddleId: saddleId.toString(), userId: userId.toString() }}
-      orderAttributes={orderAttributes}
-      saddleAttributes={saddleAttributes.attributes}
-    />
+    <>
+      <PreviousOrderForm
+        data={{ saddleId: saddleId.toString(), userId: userId.toString() }}
+        orderAttributes={orderAttributes}
+        saddleAttributes={saddleAttributes.attributes}
+      />
+    </>
   );
 }

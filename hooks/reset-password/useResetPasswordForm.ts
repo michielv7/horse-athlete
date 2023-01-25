@@ -35,7 +35,7 @@ export const useResetPasswordForm = ({ code }: { code: string }) => {
           path: '/',
         });
 
-        push('/');
+        push('/home');
       });
 
   return {

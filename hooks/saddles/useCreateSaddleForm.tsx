@@ -6,6 +6,12 @@ import { FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { ZodError } from 'zod';
 
+interface IBaseSaddle {
+  name: string;
+  description: string;
+  basePrice: number;
+}
+
 export const useCreateSaddleForm = ({
   update = false,
   saddleInfo,
@@ -18,19 +24,15 @@ export const useCreateSaddleForm = ({
     basePrice: number;
   };
 }) => {
-  const [name, setName] = useState(saddleInfo?.name ?? '');
-  const [description, setDescription] = useState(saddleInfo?.description ?? '');
-  const [basePrice, setBasePrice] = useState(saddleInfo?.basePrice ?? 0);
+  const [baseSaddle, setBaseSaddle] = useState<IBaseSaddle>({
+    ...(saddleInfo ?? { name: '', description: '', basePrice: 0 }),
+  });
   const [errors, setErrors] = useState<string[]>([]);
   const { push } = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const body = {
-      name,
-      description,
-      basePrice,
-    };
+    const body = { ...baseSaddle };
     processAttributes(body);
 
     const result = SaddleBody.safeParse(body);
@@ -62,5 +64,5 @@ export const useCreateSaddleForm = ({
       setErrors((oldArr) => [...oldArr, error.message]);
   };
 
-  return { setName, setDescription, setBasePrice, handleSubmit, errors };
+  return { setBaseSaddle, handleSubmit, errors };
 };

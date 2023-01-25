@@ -11,11 +11,10 @@ export const SaddleEditForm = ({ saddle }: { saddle: SaddleType }) => {
     attributes: { name, basePrice, description },
   } = saddle;
 
-  const { setName, setDescription, setBasePrice, handleSubmit, errors } =
-    useCreateSaddleForm({
-      update: true,
-      saddleInfo: { saddleId: id, name, description, basePrice },
-    });
+  const { setBaseSaddle, handleSubmit, errors } = useCreateSaddleForm({
+    update: true,
+    saddleInfo: { saddleId: id, name, description, basePrice },
+  });
 
   return (
     <>
@@ -43,7 +42,9 @@ export const SaddleEditForm = ({ saddle }: { saddle: SaddleType }) => {
           name="saddleName"
           id="saddleName"
           defaultValue={saddle.attributes.name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) =>
+            setBaseSaddle((old) => ({ ...old, name: e.target.value }))
+          }
         />
 
         <label htmlFor="saddleDescription">Saddle description</label>
@@ -52,7 +53,9 @@ export const SaddleEditForm = ({ saddle }: { saddle: SaddleType }) => {
           name="saddleDescription"
           id="saddleDescription"
           defaultValue={saddle.attributes.description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) =>
+            setBaseSaddle((old) => ({ ...old, description: e.target.value }))
+          }
         />
 
         <label htmlFor="saddleBasePrice">Saddle base price</label>
@@ -61,7 +64,12 @@ export const SaddleEditForm = ({ saddle }: { saddle: SaddleType }) => {
           name="saddleBasePrice"
           id="saddleBasePrice"
           defaultValue={saddle.attributes.basePrice}
-          onChange={(e) => setBasePrice(parseFloat(e.target.value))}
+          onChange={(e) =>
+            setBaseSaddle((old) => ({
+              ...old,
+              basePrice: parseFloat(e.target.value),
+            }))
+          }
         />
 
         <div

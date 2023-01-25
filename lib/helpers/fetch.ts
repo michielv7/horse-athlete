@@ -12,18 +12,14 @@ export const fetchData = async ({
   body?: Object;
   authorized: boolean;
 }) => {
-  const headers = {
+  const headers: HeadersInit = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-  } as {
-    Accept: string;
-    'Content-Type': string;
-    Authorization?: string;
   };
 
   if (authorized) {
     const cookie = <CookieType>JSON.parse(getCookie('user', { path: '/' })!.toString());
-    headers.Authorization = `Bearer ${cookie.jwt}`;
+    headers['Authorization'] = `Bearer ${cookie.jwt}`;
   }
 
   return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {

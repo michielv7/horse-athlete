@@ -13,8 +13,9 @@ export const CreateSaddleForm = ({
   };
 }) => {
   const childDivStyle = 'grid grid-cols-2 items-center border p-3 rounded-md';
-  const { setName, setDescription, setBasePrice, handleSubmit, errors } =
-    useCreateSaddleForm({ update: false });
+  const { setBaseSaddle, handleSubmit, errors } = useCreateSaddleForm({
+    update: false,
+  });
 
   return (
     <>
@@ -42,7 +43,9 @@ export const CreateSaddleForm = ({
           type="text"
           name="name"
           id="name"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) =>
+            setBaseSaddle((old) => ({ ...old, name: e.target.value }))
+          }
           required
         />
 
@@ -51,7 +54,9 @@ export const CreateSaddleForm = ({
           type="text"
           name="description"
           id="description"
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) =>
+            setBaseSaddle((old) => ({ ...old, description: e.target.value }))
+          }
           required
         />
 
@@ -61,7 +66,12 @@ export const CreateSaddleForm = ({
           name="basePrice"
           id="basePrice"
           min={0}
-          onChange={(e) => setBasePrice(parseInt(e.target.value))}
+          onChange={(e) =>
+            setBaseSaddle((old) => ({
+              ...old,
+              basePrice: parseInt(e.target.value),
+            }))
+          }
           required
         />
         <div
