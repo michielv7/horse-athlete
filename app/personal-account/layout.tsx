@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { Profile } from '#/components/personal-account/Profile/Profile';
+import { Profile } from '#/components/personal-account/profile/Profile';
 import { fetchUserStats } from '#/lib/helpers/personal-account/fetchUserStats';
 import Statistics from '#/components/personal-account/stats/Stats';
 
