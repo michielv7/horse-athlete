@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           'dd/MM/YYY',
         )}`}</p>
       </div>
-      <article className="prose prose-img:rounded-xl prose-headings:underline prose-a:text-blue-600">{news!.longForm}</article>
+      <article>{news!.longForm}</article>
       <Link
         href={'/news-forum'}
         className="mt-5 flex flex-row items-center justify-center gap-2 self-center rounded-md bg-gray-500 p-2 hover:bg-gray-600"
