@@ -66,6 +66,13 @@ export const demos: Item[] = [
         description: 'View all the users',
         forAdmin: true,
       },
+      {
+        name: 'Log out',
+        slug: 'log-out',
+        description: 'Logging out of you account',
+        forFitter: true,
+        forAdmin: true,
+      }
     ],
   },
 ];

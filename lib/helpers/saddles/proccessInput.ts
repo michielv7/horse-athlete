@@ -93,6 +93,7 @@ function processInput(child: Element, id: string, type: string): IFields {
 }
 
 function processNumber(child: Element, id: string, type: string): IFields {
+  console.log(id);
   const json = processInput(child, id, type);
   const min: number = parseInt(
     getValue({ node: child, selector: `input#min-${id}` }),

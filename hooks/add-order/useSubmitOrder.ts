@@ -35,8 +35,7 @@ export const useSubmitOrder = ({
       method: 'POST',
       body: { data },
       authorized: true,
-    })
-    // .then(() => push('/order-overview'));
+    }).then(() => push('/order-overview'));
   };
 
   return { handleSubmitOrder };

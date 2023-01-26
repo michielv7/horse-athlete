@@ -2,6 +2,7 @@ import { demos } from '#/lib/demos';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { isAdmin, isFitter } from '#/lib/helpers/serverAuthorization';
+import { ClientNavComponent } from '#/components/nav/ClientNavComponent';
 
 export default function GlobalNav() {
   const isUserAdmin = isAdmin(),
@@ -25,7 +26,13 @@ export default function GlobalNav() {
                   (item.forAdmin && isUserAdmin) ||
                   (item.forFitter && isUserFitter))
               ) {
-                return (
+                return item.slug === 'log-out' ? (
+                  <ClientNavComponent
+                    key={item.slug}
+                    item={item}
+                    isActive={isActive}
+                  />
+                ) : (
                   <NavComponent
                     key={item.slug}
                     item={item}

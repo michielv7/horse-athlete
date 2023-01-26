@@ -91,8 +91,8 @@ export const CreateSaddleForm = ({
 
           {[...Array(parseInt(numberAmount))].map((_, i) => (
             <div
-              key={`string-${i + 1}`}
-              id={`string-${i + 1}`}
+              key={`number-${i + 1}`}
+              id={`number-${i + 1}`}
               className={childDivStyle}
               data-type="number"
             >
